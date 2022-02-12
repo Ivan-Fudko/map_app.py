@@ -13,17 +13,22 @@ class MyMap(QWidget):
         super().__init__()
         self.x, self.y, self.masht = '37.530887', '55.703118', '0.002'
 
-        uic.loadUi('1.ui', self)
+        uic.loadUi('map_designe.ui', self)
         self.pushButton.clicked.connect(self.setImageToPixmap)
+        self.setWindowTitle('Map_app')
+
+        self.x_edit.setText(self.x)
+        self.y_edit.setText(self.y)
+        self.mashtab.setText(self.masht)
 
         self.map_request = ['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',', self.y,
                             '&spn=', self.masht, ',', self.masht, '&l=map']
         self.setImageToPixmap()
 
     def getImage(self):
-        self.x = self.edit_x.toPlainText().strip()
-        self.y = self.edit_y.toPlainText().strip()
-        self.masht = self.mashtab.toPlainText().strip()
+        self.x = self.x_edit.text().strip()
+        self.y = self.y_edit.text().strip()
+        self.masht = self.mashtab.text().strip()
         self.map_request = ''.join(['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',',
                                     self.y, '&spn=', self.masht, ',', self.masht, '&l=map'])
         response = requests.get(self.map_request)
@@ -38,6 +43,20 @@ class MyMap(QWidget):
         if is_all_secc:
             self.pixmap = QPixmap(self.map_file)
             self.image.setPixmap(self.pixmap)
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_PageUp:
+            try:
+                self.mashtab.setText(str(float(self.mashtab.text()) * 2))
+                self.setImageToPixmap()
+            except FloatingPointError as e:
+                print(e)
+        elif event.key() == Qt.Key_PageDown:
+            try:
+                self.mashtab.setText(str(float(self.mashtab.text()) / 2))
+                self.setImageToPixmap()
+            except FloatingPointError as e:
+                print(e)
 
     def closeEvent(self, event):
         os.remove(self.map_file)
