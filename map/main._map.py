@@ -16,13 +16,15 @@ class MyMap(QWidget):
         uic.loadUi('map_designe.ui', self)
         self.pushButton.clicked.connect(self.setImageToPixmap)
         self.setWindowTitle('Map_app')
+        self.vid = 'map'
 
         self.x_edit.setText(self.x)
         self.y_edit.setText(self.y)
         self.mashtab.setText(self.masht)
 
-        self.map_request = ['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',', self.y,
-                            '&spn=', self.masht, ',', self.masht, '&l=map']
+        self.map_request_str = ''
+        self.map_request = ['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',',
+                            self.y, '&spn=', self.masht, ',', self.masht, '&l=', self.vid]
         self.setImageToPixmap()
         self.setSelfFocus()
 
@@ -30,9 +32,16 @@ class MyMap(QWidget):
         self.x = self.x_edit.text()
         self.y = self.y_edit.text()
         self.masht = self.mashtab.text()
-        self.map_request = ''.join(['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',',
-                                    self.y, '&spn=', self.masht, ',', self.masht, '&l=map'])
-        response = requests.get(self.map_request)
+        if self.layer.currentIndex() == 0:
+            self.vid = 'sat'
+        if self.layer.currentIndex() == 1:
+            self.vid = 'map'
+        if self.layer.currentIndex() == 2:
+            self.vid = 'skl'
+        self.map_request = ['http://static-maps.yandex.ru/1.x/?ll=', self.x, ',',
+                            self.y, '&spn=', self.masht, ',', self.masht, '&l=', self.vid]
+        self.map_request_str = ''.join(self.map_request)
+        response = requests.get(self.map_request_str)
         self.map_file = "map.png"
         with open(self.map_file, "wb") as file:
             file.write(response.content)
@@ -40,7 +49,6 @@ class MyMap(QWidget):
 
     def setImageToPixmap(self):
         is_all_secc = self.getImage()
-        print(is_all_secc)
         if is_all_secc:
             self.pixmap = QPixmap(self.map_file)
             self.image.setPixmap(self.pixmap)
