@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>map_app</class>
- <widget class="QWidget" name="map_app">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1008</width>
+    <width>990</width>
     <height>594</height>
    </rect>
   </property>
@@ -43,19 +43,9 @@
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>30</y>
-     <width>241</width>
-     <height>51</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="mashtab">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>170</y>
-     <width>241</width>
-     <height>51</height>
+     <y>40</y>
+     <width>231</width>
+     <height>41</height>
     </rect>
    </property>
   </widget>
@@ -64,8 +54,18 @@
     <rect>
      <x>720</x>
      <y>100</y>
-     <width>241</width>
-     <height>51</height>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="mashtab">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>160</y>
+     <width>231</width>
+     <height>41</height>
     </rect>
    </property>
   </widget>
